@@ -8,8 +8,16 @@ def input_students
   #while the name is not empty, repeat this code
   while !name.empty? do
     # add the student hash to the array
-    students <<  {name: name, cohort: :november}
+    puts "Enter cohort month"
+    month = gets.chomp
+    if month.empty?
+      month = "month"
+    end
+
+    students <<  {name: name, cohort: month.to_s}
+
     puts "Now we have #{students.count} students"
+    puts "Enter new name"
     # get another name from user
     name = gets.chomp
   end
@@ -19,23 +27,39 @@ end
 #create 3 methods - header, main, footer
 # now we print the students
 def print_header
-  puts "The students of Villains Academy"
-  puts "---------------"
+  puts "The students of Villains Academy".center(40)
+  puts "---------------".center(40)
 end
 
 def print(names)
-  names.each do |student|
-  puts "#{student[:name]} (#{student[:cohort]} cohort)"
-  end
+  names.map! do |key, value|
+   "#{key[:cohort]}, #{key[:name]}"
+ end
+  puts names.sort
 end
 
 def print_footer(names)
-  puts "Overall, we have #{names.count} great students."
+  if names.count > 1
+    puts "Overall, we have #{names.count} great students.".center(40)
+  else
+    puts "Overall, we have #{names.count} great student.".center(40)
+  end
 end
 
-students = input_students
-print_header
-print(students)
-print_footer(students)
+def run_methods
+  students = input_students
+  if students.length < 1
+    puts "No students"
+  else
+    print_header
+    print(students)
+    print_footer(students)
+  end
+end
 
-# finally print the student count
+run_methods
+
+
+
+
+# What if the user makes a typo?
